@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Energy Insights Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1>📊 Energy Insights Dashboard</h1>
+    <p>Interactive visualizations of energy consumption and power trends from 1998–2024</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>Scatter Plot: Energy Consumption vs Star Rating</h2>
+      <div id="scatter"></div>
+    </section>
+
+    <section>
+      <h2>Donut Chart: Energy Consumption by Screen Technology</h2>
+      <div id="donut"></div>
+    </section>
+
+    <section>
+      <h2>Bar Chart: 55-Inch TV Energy Usage by Screen Technology</h2>
+      <div id="bar"></div>
+    </section>
+
+    <section>
+      <h2>Line Chart: Spot Power Prices (1998–2024)</h2>
+      <div id="line"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Developed by <strong>Scarlet Harttz</strong> | COS30045 – Data Visualization</p>
+  </footer>
+
+  <script src="js/scatter.js"></script>
+  <script src="js/donut.js"></script>
+  <script src="js/bar.js"></script>
+  <script src="js/line.js"></script>
+</body>
+</html>
