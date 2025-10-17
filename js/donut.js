@@ -1,10 +1,11 @@
 function drawDonut() {
   const container = d3.select("#donut");
-  container.selectAll("*").remove();
-
-  const width = container.node().clientWidth;
+  const width = container.node().clientWidth || 600; // fallback width
   const height = 400;
   const radius = Math.min(width, height) / 2 - 40;
+
+  // Clear previous SVG only if width is valid
+  container.selectAll("*").remove();
 
   const svg = container
     .append("svg")
@@ -14,9 +15,7 @@ function drawDonut() {
     .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
   d3.csv("data/TV_energy_Allsizes_byScreenType.csv").then(data => {
-    data.forEach(d => {
-      d.energy_consumption = +d.energy_consumption;
-    });
+    data.forEach(d => d.energy_consumption = +d.energy_consumption);
 
     const color = d3.scaleOrdinal()
       .domain(data.map(d => d.technology))
@@ -25,11 +24,10 @@ function drawDonut() {
     const pie = d3.pie().value(d => d.energy_consumption);
     const arc = d3.arc().innerRadius(radius * 0.6).outerRadius(radius);
 
-    svg.selectAll("path")
+    const paths = svg.selectAll("path")
       .data(pie(data))
       .enter()
       .append("path")
-      .attr("d", arc)
       .attr("fill", d => color(d.data.technology))
       .attr("stroke", "white")
       .style("stroke-width", "2px")
@@ -37,7 +35,7 @@ function drawDonut() {
       .duration(1000)
       .attrTween("d", function(d) {
         const i = d3.interpolate(d.startAngle + 0.1, d.endAngle);
-        return t => {
+        return function(t) {
           d.endAngle = i(t);
           return arc(d);
         };
@@ -54,6 +52,12 @@ function drawDonut() {
   });
 }
 
-drawDonut();
-window.addEventListener("resize", drawDonut);
+// Only redraw when window has actually resized
+let resizeTimeout;
+function resizeHandler() {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(drawDonut, 300);
+}
 
+drawDonut();
+window.addEventListener("resize", resizeHandler);
