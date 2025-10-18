@@ -5,7 +5,7 @@ function createBarChart() {
     const container = d3.select("#bar-chart");
     const containerWidth = container.node().getBoundingClientRect().width;
     const width = containerWidth - margin.left - margin.right;
-    const height = 500 - margin.top - margin.bottom;
+    const height = 450 - margin.top - margin.bottom;
 
     // Clear any existing SVG
     container.selectAll("svg").remove();
@@ -18,17 +18,13 @@ function createBarChart() {
 
     // Load data from CSV (55-inch TVs only by screen type)
     d3.csv("data/Ex5_TV_energy_55inchtv_byScreenType.csv").then(function(rawData) {
-        // Parse the data - try different possible column names
+        // Parse the data using actual column names
         const data = rawData.map(d => ({
-            technology: d.ScreenType || d.screenType || d.screen_type || d.Technology || d.technology || d.Type || d.type,
-            avgConsumption: +(d.AverageConsumption || d.averageConsumption || d.avg_consumption || d.AvgPower || d.avgPower || d.Consumption || d.consumption || d.Power || d.power),
-            count: +(d.Count || d.count || d.Number || d.number || d.Units || d.units) || 1
-        }));
+            technology: d.Screen_Tech,
+            avgConsumption: +d["Mean(Labelled energy consumption (kWh/year))"]
+        })).filter(d => d.technology && d.avgConsumption);
 
-        // Filter out invalid data
-        const validData = data.filter(d => d.technology && d.avgConsumption);
-
-        if (validData.length === 0) {
+        if (data.length === 0) {
             svg.append("text")
                 .attr("x", width / 2)
                 .attr("y", height / 2)
@@ -41,16 +37,16 @@ function createBarChart() {
 
         // Scales
         const xScale = d3.scaleBand()
-            .domain(validData.map(d => d.technology))
+            .domain(data.map(d => d.technology))
             .range([0, width])
             .padding(0.3);
 
         const yScale = d3.scaleLinear()
-            .domain([0, d3.max(validData, d => d.avgConsumption) * 1.2])
+            .domain([0, d3.max(data, d => d.avgConsumption) * 1.2])
             .range([height, 0]);
 
         const colorScale = d3.scaleOrdinal()
-            .domain(validData.map(d => d.technology))
+            .domain(data.map(d => d.technology))
             .range(["#667eea", "#764ba2", "#f093fb", "#ff6b6b", "#43e97b", "#f6d365"]);
 
         // Grid
@@ -67,7 +63,7 @@ function createBarChart() {
             .attr("transform", `translate(0,${height})`)
             .call(d3.axisBottom(xScale))
             .selectAll("text")
-            .style("font-size", "13px")
+            .style("font-size", "14px")
             .style("font-weight", "600");
 
         svg.append("text")
@@ -94,14 +90,14 @@ function createBarChart() {
             .style("font-size", "14px")
             .style("font-weight", "600")
             .style("text-anchor", "middle")
-            .text("Average Power Consumption (W)");
+            .text("Average Energy (kWh/year)");
 
         // Tooltip
         const tooltip = d3.select("#tooltip");
 
         // Bars
         svg.selectAll(".bar")
-            .data(validData)
+            .data(data)
             .enter()
             .append("rect")
             .attr("class", "bar")
@@ -126,8 +122,8 @@ function createBarChart() {
                 
                 tooltip.html(`
                     <strong>${d.technology}</strong><br/>
-                    Avg Consumption: ${d.avgConsumption.toFixed(1)}W<br/>
-                    Sample Size: ${d.count} TVs
+                    55-inch TVs<br/>
+                    ${d.avgConsumption.toFixed(1)} kWh/year
                 `)
                     .style("left", (event.pageX + 10) + "px")
                     .style("top", (event.pageY - 28) + "px");
@@ -146,24 +142,24 @@ function createBarChart() {
             })
             .transition()
             .duration(1000)
-            .delay((d, i) => i * 100)
+            .delay((d, i) => i * 150)
             .attr("y", d => yScale(d.avgConsumption))
             .attr("height", d => height - yScale(d.avgConsumption));
 
         // Value labels on bars
         svg.selectAll(".label")
-            .data(validData)
+            .data(data)
             .enter()
             .append("text")
             .attr("class", "label")
             .attr("x", d => xScale(d.technology) + xScale.bandwidth() / 2)
             .attr("y", d => yScale(d.avgConsumption) - 10)
             .attr("text-anchor", "middle")
-            .style("font-size", "13px")
+            .style("font-size", "14px")
             .style("font-weight", "600")
             .style("fill", "#333")
             .style("opacity", 0)
-            .text(d => `${d.avgConsumption.toFixed(0)}W`)
+            .text(d => `${d.avgConsumption.toFixed(0)}`)
             .transition()
             .delay(1000)
             .duration(500)

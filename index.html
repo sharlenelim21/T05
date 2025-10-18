@@ -23,10 +23,10 @@
         </div>
 
         <div class="chart-section">
-            <h2 class="chart-title">2. Energy Consumption by Screen Technology</h2>
+            <h2 class="chart-title">2. Energy Consumption by Screen Technology (All Sizes)</h2>
             <p class="chart-description">
                 A donut chart showing the total energy consumption distribution across different screen technologies 
-                (LED, LCD, Plasma, OLED) for all TV sizes combined.
+                (LCD, LED, OLED) for all TV sizes combined.
             </p>
             <div id="donut-chart" class="chart"></div>
         </div>
@@ -50,12 +50,15 @@
         </div>
     </div>
 
-    <div class="tooltip" id="tooltip"></div>
-   <!-- content -->
-    <script src="https://d3js.org/d3.v7.min.js"></script>  
+    <div id="tooltip"></div>
+
+    <!-- D3.js Library -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+    <!-- Chart Scripts -->
+    <script src="js/scatter.js"></script>
     <script src="js/donut.js"></script>
     <script src="js/bar.js"></script>
     <script src="js/line.js"></script>
-    <script src="js/scatter.js"></script>
 </body>
 </html>

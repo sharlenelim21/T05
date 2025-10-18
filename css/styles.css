@@ -65,6 +65,7 @@ h1 {
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    min-height: 400px;
 }
 
 /* D3 Axis Styling */
@@ -89,16 +90,19 @@ h1 {
 }
 
 /* Tooltip Styling */
-.tooltip {
+#tooltip {
     position: absolute;
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.85);
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.9);
     color: white;
-    border-radius: 5px;
+    border-radius: 8px;
     pointer-events: none;
     font-size: 13px;
     opacity: 0;
     transition: opacity 0.3s;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    line-height: 1.5;
 }
 
 /* Legend Styling */
@@ -110,8 +114,26 @@ h1 {
     cursor: pointer;
 }
 
-.legend-item:hover rect {
-    opacity: 0.7;
+.legend-item:hover text {
+    font-weight: 600;
+}
+
+.legend-item.inactive {
+    opacity: 0.4;
+}
+
+/* Bar Chart Specific */
+.bar {
+    transition: opacity 0.3s;
+}
+
+.bar:hover {
+    cursor: pointer;
+}
+
+/* Line Chart Specific */
+.line {
+    transition: all 0.3s;
 }
 
 /* Responsive Design */
@@ -134,5 +156,27 @@ h1 {
 
     .chart-section {
         padding: 20px;
+    }
+
+    .chart {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.5em;
+    }
+
+    .subtitle {
+        font-size: 1em;
+    }
+
+    .chart-title {
+        font-size: 1.2em;
+    }
+
+    .chart-description {
+        font-size: 0.9em;
     }
 }

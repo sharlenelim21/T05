@@ -1,11 +1,11 @@
 // line.js - Electricity Spot Prices Line Chart (1998-2024)
 
 function createLineChart() {
-    const margin = {top: 30, right: 120, bottom: 60, left: 70};
+    const margin = {top: 30, right: 150, bottom: 60, left: 70};
     const container = d3.select("#line-chart");
     const containerWidth = container.node().getBoundingClientRect().width;
     const width = containerWidth - margin.left - margin.right;
-    const height = 500 - margin.top - margin.bottom;
+    const height = 450 - margin.top - margin.bottom;
 
     // Clear any existing SVG
     container.selectAll("svg").remove();
@@ -18,24 +18,18 @@ function createLineChart() {
 
     // Load data from CSV
     d3.csv("data/Ex5_ARE_Spot_Prices.csv").then(function(rawData) {
-        // Parse the data
+        // Parse the data using actual column names
         rawData.forEach(d => {
-            // Try to parse year/date
-            d.year = +d.Year || +d.year || +d.Date || +d.date;
-            
-            // Parse state columns - handle different possible column names
-            d.NSW = +d.NSW || +d.nsw || 0;
-            d.VIC = +d.VIC || +d.vic || +d.Victoria || 0;
-            d.QLD = +d.QLD || +d.qld || +d.Queensland || 0;
-            d.SA = +d.SA || +d.sa || +d['South Australia'] || 0;
-            d.WA = +d.WA || +d.wa || +d['Western Australia'] || 0;
-            
-            // If there's an average column
-            d.Average = +d.Average || +d.average || +d.avg || 0;
+            d.Year = +d.Year;
+            d.Queensland = +d["Queensland ($ per megawatt hour)"];
+            d.NSW = +d["New South Wales ($ per megawatt hour)"];
+            d.Victoria = +d["Victoria ($ per megawatt hour)"];
+            d.SA = +d["South Australia ($ per megawatt hour)"];
+            d.Tasmania = +d["Tasmania ($ per megawatt hour)"] || 0;
         });
 
         // Filter valid data
-        rawData = rawData.filter(d => d.year && !isNaN(d.year));
+        rawData = rawData.filter(d => d.Year && !isNaN(d.Year));
 
         if (rawData.length === 0) {
             svg.append("text")
@@ -49,28 +43,23 @@ function createLineChart() {
         }
 
         // Determine which states have data
-        const states = ["NSW", "VIC", "QLD", "SA", "WA"];
+        const states = ["Queensland", "NSW", "Victoria", "SA", "Tasmania"];
         const availableStates = states.filter(state => 
             rawData.some(d => d[state] && d[state] > 0)
         );
-
-        // If no state data, check for Average
-        if (availableStates.length === 0 && rawData.some(d => d.Average > 0)) {
-            availableStates.push("Average");
-        }
 
         // Transform data for D3
         const data = availableStates.map(state => ({
             state: state,
             values: rawData.map(d => ({
-                year: d.year,
+                year: d.Year,
                 price: d[state]
             })).filter(d => d.price > 0)
         }));
 
         // Scales
         const xScale = d3.scaleLinear()
-            .domain(d3.extent(rawData, d => d.year))
+            .domain(d3.extent(rawData, d => d.Year))
             .range([0, width]);
 
         const allPrices = data.flatMap(d => d.values.map(v => v.price));
@@ -279,7 +268,7 @@ function createLineChart() {
             .attr("y", -15)
             .style("font-size", "13px")
             .style("font-weight", "600")
-            .text(availableStates.includes("Average") ? "Data" : "States");
+            .text("States");
 
         legend.append("text")
             .attr("x", 0)
