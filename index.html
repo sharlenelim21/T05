@@ -1,50 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Energy Insights Dashboard</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <script src="https://d3js.org/d3.v7.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Consumption Data Visualization</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <header>
-    <h1>📊 Energy Insights Dashboard</h1>
-    <p>Interactive visualizations of energy consumption and power trends from 1998–2024</p>
-  </header>
+    <div class="container">
+        <header>
+            <h1>Energy Consumption Data Visualization</h1>
+            <p class="subtitle">Interactive analysis of TV energy consumption and electricity spot prices</p>
+        </header>
 
-  <main>
-    <section>
-      <h2>Scatter Plot: Energy Consumption vs Star Rating</h2>
-      <div id="scatter"></div>
-    </section>
+        <div class="chart-section">
+            <h2 class="chart-title">1. Energy Consumption vs Star Rating</h2>
+            <p class="chart-description">
+                This scatter plot reveals the relationship between TV energy star ratings and actual power consumption. 
+                Higher star ratings generally indicate better energy efficiency and lower consumption.
+            </p>
+            <div id="scatter-chart" class="chart"></div>
+        </div>
 
-    <section>
-      <h2>Donut Chart: Energy Consumption by Screen Technology</h2>
-      <div id="donut"></div>
-    </section>
+        <div class="chart-section">
+            <h2 class="chart-title">2. Energy Consumption by Screen Technology</h2>
+            <p class="chart-description">
+                A donut chart showing the total energy consumption distribution across different screen technologies 
+                (LED, LCD, Plasma, OLED) for all TV sizes combined.
+            </p>
+            <div id="donut-chart" class="chart"></div>
+        </div>
 
-    <section>
-      <h2>Bar Chart: 55-Inch TV Energy Usage by Screen Technology</h2>
-      <div id="bar"></div>
-    </section>
+        <div class="chart-section">
+            <h2 class="chart-title">3. 55-inch TV Energy by Screen Type</h2>
+            <p class="chart-description">
+                Comparing energy consumption patterns specifically for 55-inch televisions across different 
+                screen technologies to understand efficiency differences at a standard size.
+            </p>
+            <div id="bar-chart" class="chart"></div>
+        </div>
 
-    <section>
-      <h2>Line Chart: Spot Power Prices (1998–2024)</h2>
-      <div id="line"></div>
-    </section>
-  </main>
+        <div class="chart-section">
+            <h2 class="chart-title">4. Electricity Spot Prices (1998-2024)</h2>
+            <p class="chart-description">
+                Historical electricity spot price trends across Australian states, showing price volatility 
+                and regional variations over nearly three decades.
+            </p>
+            <div id="line-chart" class="chart"></div>
+        </div>
+    </div>
 
-  <footer>
-    <p>Developed by <strong>Sharlene Lim Khai Xing</strong> | COS30045 – Data Visualization</p>
-  </footer>
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-
-  <script src="js/scatter.js"></script>
-  <script src="js/donut.js"></script>
-  <script src="js/bar.js"></script>
-  <script src="js/line.js"></script>
+    <div class="tooltip" id="tooltip"></div>
+   <!-- content -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>  
+    <script src="donut.js"></script>
+    <script src="bar.js"></script>
+    <script src="line.js"></script>
 </body>
 </html>
