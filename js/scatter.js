@@ -17,7 +17,7 @@ function createScatterPlot() {
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
     // Load data from CSV
-    d3.csv("./Ex5/Ex5_TV_energy.csv").then(function(data) {
+    d3.csv("data/Ex5_TV_energy.csv").then(function(data) {
         // Convert string values to numbers
         data.forEach(d => {
             d.rating = +d.rating || +d.Rating || +d.star_rating || +d.StarRating;

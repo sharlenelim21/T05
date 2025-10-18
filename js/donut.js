@@ -18,7 +18,7 @@ function createDonutChart() {
         .attr("transform", `translate(${width/2}, ${height/2})`);
 
     // Load data from CSV (All sizes by screen type)
-    d3.csv("./Ex5/Ex5_TV_energy_Allsizes_byScreenType.csv").then(function(rawData) {
+    d3.csv("data/Ex5_TV_energy_Allsizes_byScreenType.csv").then(function(rawData) {
         // Parse the data - try different possible column names
         const data = rawData.map(d => ({
             technology: d.ScreenType || d.screenType || d.screen_type || d.Technology || d.technology || d.Type || d.type,

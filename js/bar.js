@@ -17,7 +17,7 @@ function createBarChart() {
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
     // Load data from CSV (55-inch TVs only by screen type)
-    d3.csv("./Ex5/Ex5_TV_energy_55inchtv_byScreenType.csv").then(function(rawData) {
+    d3.csv("data/Ex5_TV_energy_55inchtv_byScreenType.csv").then(function(rawData) {
         // Parse the data - try different possible column names
         const data = rawData.map(d => ({
             technology: d.ScreenType || d.screenType || d.screen_type || d.Technology || d.technology || d.Type || d.type,
