@@ -17,7 +17,7 @@ function createLineChart() {
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
     // Load data from CSV
-    d3.csv("Ex5/Ex5_ARE_Spot_Prices.csv").then(function(rawData) {
+    d3.csv("./Ex5/Ex5_ARE_Spot_Prices.csv").then(function(rawData) {
         // Parse the data
         rawData.forEach(d => {
             // Try to parse year/date
